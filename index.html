@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ludewa Portal</title>
+
+    <style>
+        body{
+            font-family: serif;
+            margin:0;
+            padding:10px;
+            background:#f0f0f0;
+        }
+
+        .container{
+            max-width:1000px;
+            margin:auto;
+        }
+
+        /* ====================================== NAVIGATION BAR ====================================== */
+
+        .navbar{
+            display:flex;
+            flex-wrap:wrap;
+            background:#b5c7de;
+            border:1px solid #7a7a7a;
+            position:sticky;
+            top:0;
+            z-index:1000;
+        }
+
+        .nav-item,
+        .dropdown{
+            flex:1 1 auto;
+            position:relative;
+            text-align:center;
+            border-right:2px solid #b5c7de;
+        }
+
+        .navbar > *:last-child{
+            border-right:none;
+        }
+
+        .nav-link{
+            display:block;
+            padding:10px 5px;
+            text-decoration:none;
+            background:#d9ead3;
+            color:black;
+            font-size:18px;
+            cursor:pointer;
+        }
+
+        .nav-link:hover{
+            background:#c2d6bc;
+        }
+
+        /* ====================================== DROPDOWN ====================================== */
+
+        .dropdown-content{
+            display:none;
+            position:absolute;
+            top:100%;
+            left:0;
+            min-width:220px;
+            background:#e8f4e5;
+            border:1px solid #7a7a7a;
+            box-shadow:0 8px 16px rgba(0,0,0,0.2);
+            z-index:999;
+        }
+
+        .dropdown-content a{
+            display:block;
+            padding:10px 15px;
+            text-decoration:none;
+            color:black;
+            text-align:left;
+            border-bottom:1px solid #b5c7de;
+            font-size:16px;
+        }
+
+        .dropdown-content a:last-child{
+            border-bottom:none;
+        }
+
+        .dropdown-content a:hover{
+            background:#b5c7de;
+        }
+
+        .dropdown.open .dropdown-content{
+            display:block;
+        }
+
+        @media (min-width:601px){
+            .dropdown:hover .dropdown-content{
+                display:block;
+            }
+        }
+
+        .dropdown.force-hide .dropdown-content{
+            display:none !important;
+        }
+
+        /* ====================================== MAIN BODY ====================================== */
+
+        .main-wrapper{
+            display:flex;
+            margin-top:-1px;
+        }
+
+        /* ====================================== SIDEBAR ====================================== */
+
+        .sidebar{
+            width:max-content;
+            white-space:nowrap;
+            background:#e8f4e5;
+            border:2px solid #333;
+            border-right:none;
+            padding:15px;
+            box-sizing:border-box;
+        }
+
+        .sidebar h3{
+            margin-top:0;
+            font-size:18px;
+            border-bottom:2px solid #b5c7de;
+            padding-bottom:5px;
+        }
+
+        .sidebar a{
+            display:block;
+            padding:10px 5px;
+            text-decoration:none;
+            color:black;
+            border-bottom:1px dashed #999;
+            font-size:16px;
+        }
+
+        .sidebar a:hover{
+            background:#d9ead3;
+        }
+
+        /* ====================================== CONTENT AREA ====================================== */
+
+        .content-frame{
+            flex:1;
+            min-height:700px;
+            border:2px solid #333;
+            background:#cfe2f3;
+            overflow:hidden;
+        }
+
+        #main_frame{
+            width:100%;
+            height:700px;
+            border:none;
+            background:white;
+        }
+
+        /* ====================================== MOBILE RESPONSIVE ====================================== */
+
+        @media(max-width:600px){
+
+            body{
+                padding:5px;
+            }
+
+            .nav-item,
+            .dropdown{
+                flex:1 1 30%;
+                border-bottom:2px solid #b5c7de;
+                position:static;
+            }
+
+            .navbar > *:nth-child(3n){
+                border-right:none;
+            }
+
+            .nav-link{
+                font-size:16px;
+            }
+
+            .main-wrapper{
+                flex-direction:column;
+            }
+
+            .sidebar{
+                display:none;
+            }
+
+            .content-frame{
+                height:600px;
+            }
+
+            #main_frame{
+                height:600px;
+            }
+
+            .dropdown-content{
+                position:absolute;
+                top:100%;
+                left:0;
+                width:100%;
+                box-shadow:0 8px 16px rgba(0,0,0,0.3);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ====================================== NAVBAR ====================================== -->
+
+    <nav class="navbar">
+
+        <div class="nav-item">
+            <a href="#"
+               onclick="loadPage('https://umawanjo.ac.tz/njombe', this); return false;"
+               class="nav-link">
+               Home
+            </a>
+        </div>
+
+        <!-- ====================================== USAJILI ====================================== -->
+
+        <div class="dropdown" onclick="toggleDropdown(this, event)">
+
+            <a href="#" class="nav-link">
+                Registration
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="#"
+                   onclick="window.open('https://umawanjo.ac.tz/njombe/maelekezo_mfumo.html', this); return false;">
+                   Usajili
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/taarifa_usajili.php', this); return false;">Shule Zilizokamilisha Usajili
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz', this); return false;">
+                   Uongozi
+                </a>
+
+            </div>
+        </div>
+
+        <!-- ====================================== MATOKEO ====================================== -->
+
+        <div class="dropdown" onclick="toggleDropdown(this, event)">
+
+            <a href="#" class="nav-link">
+                Matokeo
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/results.php', this); return false;">
+                   Matokeo
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/ludewa/private/results.php', this); return false;">
+                   Matokeo PC
+                </a>
+
+            </div>
+        </div>
+
+        <!-- ====================================== ACADEMIC ====================================== -->
+
+        <div class="dropdown" onclick="toggleDropdown(this, event)">
+
+            <a href="#" class="nav-link">
+                Academic
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/calenda.php', this); return false;">
+                   Kalenda
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/missing_percentage_sheet.php', this); return false;">
+                   Missing Data
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/missing_subjects_sheet.php', this); return false;">
+                   Missing Subjects
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/control_sheet.php', this); return false;">
+                   Control Sheet
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/sheet.php', this); return false;">
+                   Raw Data
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/score_sheet.php', this); return false;">
+                   Score Sheet
+                </a>
+
+            </div>
+        </div>
+
+        <!-- ====================================== REPORT ====================================== -->
+
+        <div class="dropdown" onclick="toggleDropdown(this, event)">
+
+            <a href="#" class="nav-link">
+                Report
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/njombe/exam_id.php', this); return false;">
+                   Report
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/ludewa/private/exam_id.php', this); return false;">
+                   Report PC
+                </a>
+
+            </div>
+        </div>
+
+        <!-- ====================================== SITTING PLAN ====================================== -->
+
+        <div class="dropdown" onclick="toggleDropdown(this, event)">
+
+            <a href="#" class="nav-link">
+                Sitting Plan
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/umawanjo/sitting_plan.php', this); return false;">
+                   Sitting Plan
+                </a>
+
+                <a href="#"
+                   onclick="loadPage('https://umawanjo.ac.tz/wasiliana.php', this); return false;">
+                   Wasiliana Nasi
+                </a>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- ====================================== MAIN WRAPPER ====================================== -->
+
+    <div class="main-wrapper">
+
+        <!-- ====================================== SIDEBAR ====================================== -->
+
+        <aside class="sidebar">
+
+            <h3>Quick Links</h3>
+
+            <a href="#"
+               onclick="loadPage('https://umawanjo.ac.tz/njombe/results.php', this); return false;">
+               Matokeo
+            </a>
+
+            <a href="#"
+               onclick="loadPage('https://umawanjo.ac.tz/ludewa/private/results.php', this); return false;">
+               Matokeo PC
+            </a>
+
+            <a href="#"
+               onclick="loadPage('https://umawanjo.ac.tz/njombe/login.php', this); return false;">
+               Login
+            </a>
+
+            <a href="#"
+               onclick="loadPage('https://umawanjo.ac.tz/njombe/calenda.php', this); return false;">
+               Kalenda
+            </a>
+
+        </aside>
+
+        <!-- ====================================== CONTENT AREA ====================================== -->
+
+        <div class="content-frame">
+
+            <iframe
+                id="main_frame"
+                src="https://umawanjo.ac.tz/njombe">
+            </iframe>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ====================================== DROPDOWN FIX ====================================== */
+
+document.querySelectorAll('.dropdown').forEach(drop => {
+
+    drop.addEventListener('mouseleave', function() {
+
+        this.classList.remove('force-hide');
+
+    });
+
+});
+
+/* ====================================== TOGGLE DROPDOWN ====================================== */
+
+function toggleDropdown(element, event) {
+
+    if (event.target.classList.contains('nav-link')) {
+
+        event.preventDefault();
+
+        if (window.innerWidth <= 600) {
+
+            document.querySelectorAll('.dropdown').forEach(drop => {
+
+                if (drop !== element) {
+
+                    drop.classList.remove('open');
+
+                }
+
+            });
+
+            element.classList.toggle('open');
+
+        }
+    }
+}
+
+/* ====================================== LOAD PAGE ====================================== */
+
+function loadPage(pageUrl, element){
+
+    // ======================================
+    // PAGES ZENYE LOGIN / SESSION / SECURITY
+    // ======================================
+
+    const externalPages = [
+
+        'login.php',
+        'results.php',
+        'private',
+        'exam_id.php',
+        'missing_percentage_sheet.php',
+        'missing_subjects_sheet.php',
+        'control_sheet.php',
+        'sheet.php',
+        'score_sheet.php',
+
+        // additional auth keywords
+
+        'signin',
+        'signup',
+        'auth',
+        'dashboard',
+        'admin',
+        'session',
+        'portal'
+    ];
+
+    const shouldOpenExternally = externalPages.some(page =>
+        pageUrl.toLowerCase().includes(page.toLowerCase())
+    );
+
+    // ======================================
+    // OPEN EXTERNALLY IF LOGIN/SESSION PAGE
+    // ======================================
+
+    if(shouldOpenExternally){
+
+        window.location.href = pageUrl;
+
+    } else {
+
+        // ======================================
+        // NORMAL PUBLIC PAGES OPEN IN IFRAME
+        // ======================================
+
+        document.getElementById('main_frame').src = pageUrl;
+    }
+
+    // ======================================
+    // CLOSE DROPDOWNS
+    // ======================================
+
+    document.querySelectorAll('.dropdown').forEach(drop => {
+
+        drop.classList.remove('open');
+        drop.classList.add('force-hide');
+
+    });
+
+    setTimeout(() => {
+
+        document.querySelectorAll('.dropdown').forEach(drop => {
+
+            drop.classList.remove('force-hide');
+
+        });
+
+    }, 1000);
+}
+
+/* ====================================== CLICK OUTSIDE CLOSE MENU ====================================== */
+
+window.onclick = function(event) {
+
+    if (
+
+        !event.target.matches('.nav-link') &&
+        !event.target.closest('.dropdown-content')
+
+    ) {
+
+        document.querySelectorAll('.dropdown').forEach(drop => {
+
+            drop.classList.remove('open');
+
+        });
+    }
+}
+
+</script>
+
+</body>
+</html>
